@@ -1,0 +1,23 @@
+export(rrreg, rrreg.predictor, power.rr.test)
+useDynLib(rr)
+
+importFrom(MASS, mvrnorm)
+importFrom(arm, bayesglm)
+importFrom(coda, mcmc)
+importFrom(coda, as.mcmc)
+importFrom(coda, as.mcmc.list)
+importFrom(coda, gelman.diag)
+
+S3method(coef, rrreg)
+S3method(vcov, rrreg)
+S3method(print, rrreg)
+S3method(predict, rrreg)
+S3method(summary, rrreg)
+S3method(print, summary.rrreg)
+
+S3method(coef, rrreg.predictor)
+S3method(vcov, rrreg.predictor)
+S3method(print, rrreg.predictor)
+S3method(predict, rrreg.predictor)
+S3method(summary, rrreg.predictor)
+S3method(print, summary.rrreg.predictor)
