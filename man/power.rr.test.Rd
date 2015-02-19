@@ -91,7 +91,7 @@ power.rr.test(p = 2/3, p1 = 1/6, p0 = 1/6, n = 200,
 				       
 \dontrun{
 
-## Find power varying number of respondents from 250 to 2500 and 
+## Find power varying the number of respondents from 250 to 2500 and 
 ## the population proportion of respondents possessing the sensitive 
 ## trait from 0 to .15
 
@@ -108,7 +108,7 @@ for(n in n.seq) {
                                        alternative = "one.sided")$power
     }
     
-## Replicates the results for Figure 1 in Blair, Imai, and Zhou (2014)
+## Replicates the results for Figure 2 in Blair, Imai, and Zhou (2014)
 }
 }
  

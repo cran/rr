@@ -1,6 +1,6 @@
 Package: rr
-Version: 1.0
-Date: 2015-2-7
+Version: 1.1
+Date: 2015-2-19
 Title: Statistical Methods for the Randomized Response Technique
 Author: Graeme Blair <graeme.blair@columbia.edu>, Yang-Yang Zhou <yz3@princeton.edu>, Kosuke Imai <kimai@princeton.edu>
 Maintainer: Graeme Blair <graeme.blair@columbia.edu>
@@ -10,7 +10,7 @@ Description: Enables researchers to conduct multivariate statistical analyses of
 LazyLoad: yes
 LazyData: yes
 License: GPL (>= 2)
-Packaged: 2015-02-07 10:50:30 UTC; gblair
+Packaged: 2015-02-19 03:33:42 UTC; gblair
 NeedsCompilation: yes
 Repository: CRAN
-Date/Publication: 2015-02-08 01:05:46
+Date/Publication: 2015-02-19 08:01:47

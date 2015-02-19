@@ -4,7 +4,7 @@
 \docType{package}
 \title{R Package for the Randomized Response Technique}
 \description{
-  \code{rr} is a pubicly available R package that implements methods developed by Blair, Imai, and Zhou (2014) such as     
+  \code{rr} implements methods developed by Blair, Imai, and Zhou (2015) such as     
   multivariate regression and power analysis for the randomized response technique. Randomized response is a survey technique 
   that introduces random noise to reduce potential bias from non-response and social desirability when asking questions about 
   sensitive behaviors and beliefs. The current version of this package conducts multivariate regression analyses for the 
@@ -36,7 +36,7 @@ License: \tab GPL (>= 2)\cr
   Yang-Yang Zhou, Department of Politics, Princeton University
   \email{yz3@princeton.edu}, \url{http://yangyangzhou.com}
   
-  Maintainers: Yang-Yang Zhou <yz3@princeton.edu>, Graeme Blair <graeme.blair@columbia.edu>
+  Maintainer: Graeme Blair <graeme.blair@columbia.edu>
 }
 
 \references{

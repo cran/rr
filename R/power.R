@@ -383,3 +383,84 @@ se.f.rr <- function(p, p0, p1, q, design, n, r, presp){
   return(return.object)
 }
 
+power.rr.plot <- function(p, p0, p1, q, design, n.seq, r, presp.seq, presp.null = NULL, sig.level, 
+                          prespT.seq, prespC.seq, prespT.null = NULL, prespC.null,
+                          type = c("one.sample", "two.sample"), 
+                          alternative = c("one.sided", "two.sided"),
+                          solve.tolerance = .Machine$double.eps, legend = TRUE, legend.x = "bottomright", 
+                          legend.y, par = TRUE, ...
+){
+  if(missing(n.seq))
+    stop("Please provide a vector of sample sizes")
+  
+  if(missing(presp.seq))
+    stop("Please provide a vector of proportions with the sensitive trait")
+  
+  power <- list()
+  
+  if(missing(presp.null))
+    presp.null <- NULL
+  
+  if(missing(prespT.null))
+    prespT.null <-NULL
+  
+  if(alternative == "one.sided"){
+    alt <- "One Sided"
+  }else{
+    alt <- "Two Sided"
+  }
+  
+  if(type == "one.sample"){
+  for(n in n.seq) {
+    power[[n]] <- rep(NA, length(presp.seq))
+    for(i in 1:length(presp.seq))
+      power[[n]][i] <- power.rr.test(p = p, p0 = p0, p1 = p1, q = q, n = n, 
+                                     presp = presp.seq[i], presp.null = presp.null,
+                                     design = design, sig.level = sig.level, 
+                                     type = type,
+                                     alternative = alternative)$power
+  }
+  }else{
+    if(length(prespT.seq) != length(prespC.seq))
+      stop("length of vector prespT.seq is not equal to length of vector prespC.seq")
+    
+    presp.seq <- prespT.seq
+    
+    for(n in n.seq) {
+      power[[n]] <- rep(NA, length(presp.seq))
+      for(i in 1:length(presp.seq))
+        power[[n]][i] <- power.rr.test(p = p, p0 = p0, p1 = p1, q = q, n = n, 
+                                       prespT = presp.seq[i], 
+                                       prespC = prespC.seq[i], 
+                                       prespT.null = prespT.null, 
+                                       prespC.null = prespC.null,
+                                       design = design, sig.level = sig.level, 
+                                       type = type,
+                                       alternative = alternative)$power
+  }
+  }
+  
+  if(par == TRUE)
+  par(oma = c(0, 0, 0, 0), mar = c(3.6, 3.6, 0, 0), las = 1, mgp = c(2, .7, 0), tck = -.01, cex = 0.8)  
+  
+  plot(0, 1, type = "n", xlim = c(0, max(presp.seq)), ylim = c(0, 1.05), axes = F, 
+       xlab = "", ylab = "")
+  
+  abline(h = 0, lty = "dashed", col = "darkgray")
+  
+  col.seq <- rev(gray((n.seq)/(3000+150)))
+  
+  for(n in 1:length(n.seq))
+    lines(presp.seq, power[[n.seq[n]]], lwd = 1.5, col = col.seq[n])
+  
+  axis(1)
+  axis(2)
+  mtext("Population Proportion of Respondents", side = 1, las = 0, line = 2.5, cex = 0.8)
+  mtext(paste("Statistical Power for", alt, "Test"), side = 2, las = 0, line = 2.5, cex = 0.8)
+  
+  if(legend == TRUE){
+    
+    legend(x = legend.x, y = legend.y, legend = n.seq, title = "Sample size", lwd = 1, col = col.seq, bty = "n", cex = 0.8)
+
+  }
+}

@@ -1,4 +1,4 @@
-export(rrreg, rrreg.predictor, power.rr.test)
+export(rrreg, rrreg.predictor, power.rr.test, power.rr.plot)
 useDynLib(rr)
 
 importFrom(MASS, mvrnorm)
