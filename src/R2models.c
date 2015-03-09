@@ -22,6 +22,7 @@ void R2rrLogit(int *Y,        /* outcome variable: 0, 1 */
 	       double *Var,   /* K(J-1) proposal variances */
 	       int *n_gen,     /* # of MCMC draws */
 	       int *counter,  /* # of acceptance for each parameter */
+	       int *verbose, /* want to print progress? */
 	       double *store  /* Storage for beta */
 	       ) {
 
@@ -65,8 +66,10 @@ void R2rrLogit(int *Y,        /* outcome variable: 0, 1 */
     for (j = 0; j < *n_cov; j++)
       store[itemp++] = beta[j];
 
-    Rprintf("acceptance rate: %5g\n", ((double) *counter / (double)
-				       main_loop)); 
+    if (*verbose) {
+       Rprintf("acceptance rate: %5g\n", ((double) *counter / (double)
+			    	       main_loop)); 
+    }
     R_FlushConsole(); 
     R_CheckUserInterrupt();
   } /* end of Gibbs sampler */
@@ -114,6 +117,7 @@ void R2rrLogitMixed(int *Y,        /* outcome variable: 0, 1, ..., J-1 */
 		    int *acc_fixed,    /* # of acceptance for fixed effects */
 		    int *acc_random,   /* # of acceptance for random
 					  effects */
+		    int *verbose,  /* want to print progress? */
 		    double *betaStore,
 		    double *gammaStore,
 		    double *PsiStore
@@ -150,7 +154,9 @@ void R2rrLogitMixed(int *Y,        /* outcome variable: 0, 1, ..., J-1 */
   for (i = 0; i < *n_samp; i++) {
     for (j = 0; j < *n_random; j++) {
       Zgrp[grp[i]][vitemp[grp[i]]][j] = dZ[itemp++];
+      /* Rprintf("%5g ", Zgrp[grp[i]][vitemp[grp[i]]][j]); */
     }
+    /* Rprintf("\n"); */
     vitemp[grp[i]]++;
   }
   
@@ -161,6 +167,7 @@ void R2rrLogitMixed(int *Y,        /* outcome variable: 0, 1, ..., J-1 */
       Psi[j][k] = dPsi[itemp];
       itemp++;
     }
+
   dinv(Psi, *n_random, PsiInv);
 
   itemp = 0;
@@ -196,12 +203,14 @@ void R2rrLogitMixed(int *Y,        /* outcome variable: 0, 1, ..., J-1 */
 		 beta0, A0, *tau0, T0, Tune, tune_random,
 		 1, acc_fixed, acc_random);
     
-    Rprintf("acceptance ratio for fixed effects:%5g\n", 
-	    (double) acc_fixed[0] / (double) main_loop); 
-    Rprintf("acceptance ratio for random effects:\n");
-    for (j = 0; j < *n_grp; j++)
-      Rprintf("%3g ", (double) acc_random[j] / (double) main_loop);
-    Rprintf("\n");
+    if (*verbose) {
+      Rprintf("acceptance ratio for fixed effects:%5g\n", 
+	      (double) acc_fixed[0] / (double) main_loop); 
+      Rprintf("acceptance ratio for random effects:\n");
+      for (j = 0; j < *n_grp; j++)
+        Rprintf("%3g ", (double) acc_random[j] / (double) main_loop); 
+      Rprintf("\n"); 
+    }
 
     R_FlushConsole(); 
     /* Storing the output */

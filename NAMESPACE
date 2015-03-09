@@ -1,4 +1,4 @@
-export(rrreg, rrreg.predictor, power.rr.test, power.rr.plot)
+export(rrreg, rrreg.bayes, rrreg.predictor, power.rr.test, power.rr.plot)
 useDynLib(rr)
 
 importFrom(MASS, mvrnorm)
@@ -21,3 +21,17 @@ S3method(print, rrreg.predictor)
 S3method(predict, rrreg.predictor)
 S3method(summary, rrreg.predictor)
 S3method(print, summary.rrreg.predictor)
+
+S3method(coef, rrreg.bayes)
+S3method(vcov, rrreg.bayes)
+S3method(print, rrreg.bayes)
+S3method(summary, rrreg.bayes)
+S3method(print, summary.rrreg.bayes)
+
+S3method(as.list, rrreg.bayes)
+
+S3method(coef, rrreg.bayes.list)
+S3method(vcov, rrreg.bayes.list)
+S3method(print, rrreg.bayes.list)
+S3method(summary, rrreg.bayes.list)
+S3method(print, summary.rrreg.bayes.list)

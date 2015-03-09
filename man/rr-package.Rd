@@ -20,8 +20,8 @@
 \tabular{ll}{
 Package: \tab rr\cr
 Type: \tab Package\cr
-Version: \tab 1.0\cr
-Date: \tab 2015-01-03\cr
+Version: \tab 1.2\cr
+Date: \tab 2015-3-8\cr
 License: \tab GPL (>= 2)\cr
 }
 }

@@ -1,3 +1,4 @@
 version      date  description
 1.0      02/07/15  The first version on CRAN.
 1.1	 02/19/15  Added power comparison plot function.
+1.2      03/06/15  Added Bayesian implementation for forced response design, including mixed effects option.

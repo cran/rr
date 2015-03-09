@@ -13,7 +13,7 @@ rrreg.predictor <- function(formula, p, p0, p1, q, design, data, rr.item, model.
   xy <- model.matrix.default(formula, df)
   x1 <- xy[, colnames(xy) != paste(rr.item)] 
   
-  bscale <- c(1, unname(apply(x1[,-1], 2, sd)))
+  bscale <- c(1, unname(apply((as.matrix(x1[,-1])), 2, sd)))
   tscale <- c(bscale, 1)
   scale <- c(bscale, tscale)
   

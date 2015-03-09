@@ -5,11 +5,9 @@ rrreg <- function(formula, p, p0, p1, q, design, data, start = NULL,
                   optim = FALSE, em.converge = 10^(-8), 
                   glmMaxIter = 10000, solve.tolerance = .Machine$double.eps) {
   
-    
-  
     df <- model.frame(formula, data, na.action = na.omit)
     x1 <- model.matrix.default(formula, df)
-    bscale <- c(1, unname(apply(x1[,-1], 2, sd)))
+    bscale <- c(1, unname(apply((as.matrix(x1[,-1])), 2, sd)))
     x <- sweep(x1, 2, bscale, `/`) #rescale/standardize each covar, not including intercept
     y <- model.response(df)
     n <- length(y)
@@ -311,9 +309,13 @@ predict.rrreg <- function(object, given.y = FALSE, alpha = .05,
   } else {
     if(nrow(newdata)==0)
       stop("No data in the provided data frame.")
+    xvar <- model.matrix(as.formula(paste("~", c(object$call$formula[[3]]))), newdata)
+    
+    if(given.y == TRUE){
     newdata1 <- model.frame(object$call$formula, newdata, na.action = na.omit)
     xvar <- model.matrix(as.formula(paste("~", c(object$call$formula[[3]]))), newdata1)
     y <- model.response(newdata1)
+    }
   }
   
   if(quasi.bayes == FALSE) {
