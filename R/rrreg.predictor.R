@@ -254,7 +254,7 @@ rrreg.predictor <- function(formula, p, p0, p1, q, design, data, rr.item, model.
                                   vcov = vcov,
                                   data = df,
                                   coef.names = c(colnames(x), paste(rr.item)),
-                                  x = x,
+                                  x = x1, #unscaled data
                                   y = y,
                                   o = o,
                                   design = design,

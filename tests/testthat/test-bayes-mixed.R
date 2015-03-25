@@ -2,8 +2,6 @@ context("Tests Bayesian regression code (rrreg.bayes) with mixed effects")
 
 rm(list=ls())
 
-data(nigeria)
-
 ## Define design parameters
 p <- 2/3  # probability of answering honestly in Forced Response Design
 p1 <- 1/6 # probability of forced 'yes'
@@ -25,7 +23,6 @@ draws <- mvrnorm(n = 3, mu = coef(mle.estimates),
                  Sigma = vcov(mle.estimates) * 9)
 
 test_that("basic code runs with all defaults", {
-  skip_on_cran()
   bayes <- rrreg.bayes(rr.q1 ~ cov.asset.index + cov.married + 
                          I(cov.age/10) + I((cov.age/10)^2) + cov.education + cov.female,   
                        data = nigeria, p = p, p1 = p1, p0 = p0, beta.tune = .0001, 
@@ -41,7 +38,7 @@ test_that("basic code runs with all defaults", {
 })
 
 test_that("basic code runs varying the burnin / thin / n.draws options", {
-  skip_on_cran()
+
   expect_is(
     bayes <- rrreg.bayes(rr.q1 ~ cov.asset.index + cov.married + 
                            I(cov.age/10) + I((cov.age/10)^2) + cov.education + cov.female,   
@@ -74,6 +71,7 @@ test_that("basic code runs setting customized Metropolis options", {
                          data = nigeria, p = p, p1 = p1, p0 = p0, beta.tune = .0001, 
                          Psi.tune = .001, group.mixed = "county",
                          beta.start = draws[1,],
+                         n.draws = 250, burnin = 100, thin = 10,
                          design = "forced-known"),
     "rrreg.bayes"
   )
@@ -85,6 +83,7 @@ test_that("basic code runs setting customized Metropolis options", {
                          Psi.tune = .001, group.mixed = "county",
                          beta.start = draws[1,], beta.mu0 = rep(0, 7), 
                          beta.A0 = diag(7) * 1,
+                         n.draws = 250, burnin = 100, thin = 10,
                          design = "forced-known"),
     "rrreg.bayes"
   )
@@ -93,7 +92,6 @@ test_that("basic code runs setting customized Metropolis options", {
 })
 
 test_that("basic code runs setting customized Metropolis options for mixed effects", {
-  skip_on_cran()
   
   expect_is(
     bayes <- rrreg.bayes(rr.q1 ~ cov.asset.index + cov.married + 
@@ -101,6 +99,7 @@ test_that("basic code runs setting customized Metropolis options for mixed effec
                          data = nigeria, p = p, p1 = p1, p0 = p0, beta.tune = .0001, 
                          Psi.tune = .001, group.mixed = "county",
                          Psi.start = 20, Psi.df = 3, Psi.scale = .1,
+                         n.draws = 250, burnin = 100, thin = 10,
                          design = "forced-known"),
     "rrreg.bayes"
   )
@@ -108,13 +107,13 @@ test_that("basic code runs setting customized Metropolis options for mixed effec
 })
 
 test_that("basic code runs when there are covariates sent to the mixed model",{
-  skip_on_cran()
   
   bayes.mixed.cov <- rrreg.bayes(rr.q1 ~ cov.asset.index + cov.married + 
                                    I(cov.age/10) + I((cov.age/10)^2) + cov.education + cov.female,   
                                  data = nigeria, p = p, p1 = p1, p0 = p0, beta.tune = .0001, 
                                  Psi.tune = .001, group.mixed = "county",
                                  Psi.start = 20, Psi.df = 3, Psi.scale = .1,
+                                 n.draws = 250, burnin = 100, thin = 10,
                                  design = "forced-known", formula.mixed = ~ cov.education)
   
   expect_equal(
@@ -173,7 +172,6 @@ test_that("basic code runs when there are covariates sent to the mixed model",{
 })
 
 test_that("standard functions coef, sd.rrreg.bayes, summary work", {
-  skip_on_cran()
   
   bayes <- rrreg.bayes(rr.q1 ~ cov.asset.index + cov.married + 
                          I(cov.age/10) + I((cov.age/10)^2) + cov.education + cov.female,   
@@ -235,7 +233,6 @@ test_that("standard functions coef, sd.rrreg.bayes, summary work", {
 }) 
 
 test_that("using string, numeric, or factor group variable gets the same answer", {
-  skip_on_cran()
   
   nigeria$county.fac <- as.factor(sample(c("aa 1", "bb 2", "cc 3"), nrow(nigeria), replace = T))
   nigeria$county.str <- as.character(nigeria$county.fac)
@@ -278,7 +275,6 @@ test_that("using string, numeric, or factor group variable gets the same answer"
 })
 
 test_that("doing multiple chains works as well as coef, sd.rrreg.bayes, summary work", {
-  skip_on_cran()
   
   bayes.1 <- rrreg.bayes(rr.q1 ~ cov.asset.index + cov.married + 
                            I(cov.age/10) + I((cov.age/10)^2) + cov.education + cov.female,   

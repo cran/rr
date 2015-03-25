@@ -22,9 +22,7 @@ library(MASS)
 draws <- mvrnorm(n = 3, mu = coef(mle.estimates), 
                  Sigma = vcov(mle.estimates) * 9)
 
-test_that("basic code runs with all defaults", {
-  skip_on_cran()
-  
+test_that("basic code runs with all defaults", {  
   bayes <- rrreg.bayes(rr.q1 ~ cov.asset.index + cov.married + 
                          I(cov.age/10) + I((cov.age/10)^2) + cov.education + cov.female,   
                        data = nigeria, p = p, p1 = p1, p0 = p0, beta.tune = .0001, 
@@ -34,7 +32,6 @@ test_that("basic code runs with all defaults", {
 })
 
 test_that("basic code runs varying the burnin / thin / n.draws options", {
-  skip_on_cran()
   
   expect_is(
     bayes <- rrreg.bayes(rr.q1 ~ cov.asset.index + cov.married + 
@@ -58,13 +55,13 @@ test_that("basic code runs varying the burnin / thin / n.draws options", {
 
 
 test_that("basic code runs setting customized Metropolis options", {
-  skip_on_cran()
   
   expect_is(
     bayes <- rrreg.bayes(rr.q1 ~ cov.asset.index + cov.married + 
                            I(cov.age/10) + I((cov.age/10)^2) + cov.education + cov.female,   
                          data = nigeria, p = p, p1 = p1, p0 = p0, beta.tune = .0001, 
                          beta.start = draws[1,],
+                         n.draws = 500, burnin = 250, thin = 1,
                          design = "forced-known"),
     "rrreg.bayes"
   )
@@ -75,6 +72,7 @@ test_that("basic code runs setting customized Metropolis options", {
                          data = nigeria, p = p, p1 = p1, p0 = p0, beta.tune = .0001, 
                          beta.start = draws[1,], beta.mu0 = rep(0, 7), 
                          beta.A0 = diag(7) * 1,
+                         n.draws = 500, burnin = 250, thin = 1,
                          design = "forced-known"),
     "rrreg.bayes"
   )
@@ -83,7 +81,6 @@ test_that("basic code runs setting customized Metropolis options", {
 })
 
 test_that("standard functions coef, sd.rrreg.bayes, summary work", {
-  skip_on_cran()
   
   bayes <- rrreg.bayes(rr.q1 ~ cov.asset.index + cov.married + 
                          I(cov.age/10) + I((cov.age/10)^2) + cov.education + cov.female,   
@@ -119,7 +116,6 @@ test_that("standard functions coef, sd.rrreg.bayes, summary work", {
 }) 
 
 test_that("doing multiple chains works as well as coef, sd.rrreg.bayes, summary work", {
-  skip_on_cran()
   
   bayes.1 <- rrreg.bayes(rr.q1 ~ cov.asset.index + cov.married + 
                            I(cov.age/10) + I((cov.age/10)^2) + cov.education + cov.female,   
