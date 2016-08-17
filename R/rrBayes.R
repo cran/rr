@@ -85,7 +85,8 @@ logistic <- function(x) exp(x)/(1+exp(x))
 #' randomized response vector.} \item{design}{Call of standard design used:
 #' "forced-known", "mirrored", "disguised", or "unrelated-known".} \item{p}{The
 #' \code{p} argument.} \item{p0}{The \code{p0} argument.} \item{p1}{The
-#' \code{p1} argument.} \item{mixed}{Indicator for whether a mixed effects
+#' \code{p1} argument.} \item{beta.tune}{The \code{beta.tune} argument.} 
+#' \item{mixed}{Indicator for whether a mixed effects
 #' model was run.} \item{call}{the matched call.}
 #' 
 #' If a mixed-effects model is used, then several additional objects are
@@ -95,7 +96,7 @@ logistic <- function(x) exp(x)/(1+exp(x))
 #' can be analyzed using the \code{coda} package.}
 #' \item{coef.names.mixed}{Variable names for the predictors for the
 #' second-level model} \item{z}{The predictors for the second-level model.}
-#' \item{groups}{A vector of group indicators.}
+#' \item{groups}{A vector of group indicators.} \item{Psi.tune}{The \code{Psi.tune} argument.}
 #' @references Blair, Graeme, Kosuke Imai and Yang-Yang Zhou. (2014) "Design
 #' and Analysis of the Randomized Response Technique."  \emph{Working Paper.}
 #' Available at \url{http://imai.princeton.edu/research/randresp.html}.
@@ -297,6 +298,7 @@ rrreg.bayes <- function(formula, p, p0, p1, design, data,
                           p = p,
                           p1 = p1,
                           p0 = p0,
+                          beta.tune = beta.tune,
                           mixed = mixed,
                           call = match.call())
     
@@ -331,6 +333,8 @@ rrreg.bayes <- function(formula, p, p0, p1, design, data,
                           p = p,
                           p1 = p1,
                           p0 = p0,
+                          beta.tune = beta.tune,
+                          Psi.tune = Psi.tune,
                           mixed = mixed,
                           call = match.call())
     
